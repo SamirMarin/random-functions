@@ -8,6 +8,7 @@ on:
   pull_request:
     branches:
       - main
+      - prereleasetagtest
 
 permissions:
   contents: write
@@ -36,13 +37,14 @@ jobs:
           default_bump: ${{ steps.bump_label.outputs.label_value }}
           default_prerelease_bump: ${{ steps.bump_label.outputs.label_value }} 
           pre_release_branches: prereleasetagtest
-          dry_run: true
+          append_to_pre_release_tag: beta
+          dry_run: ${{ github.event_name != 'pull_request' }}
           tag_prefix: v
 
 
       - name: create release
         uses: ncipollo/release-action@v1
-        if: false #${{ github.event_name != 'pull_request' }}
+        if: ${{ github.event_name != 'pull_request' }}
         with:
           tag: ${{ steps.tag_version.outputs.new_tag }}
           name: Release ${{ steps.tag_version.outputs.new_tag }}
