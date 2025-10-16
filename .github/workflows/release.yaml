@@ -37,6 +37,7 @@ jobs:
           default_bump: ${{ steps.bump_label.outputs.label_value }}
           default_prerelease_bump: ${{ steps.bump_label.outputs.label_value }} 
           pre_release_branches: prereleasetagtest
+          append_to_pre_release_tag: beta
           dry_run: ${{ github.event_name != 'pull_request' }}
           tag_prefix: v
 
