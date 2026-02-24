@@ -27,20 +27,27 @@ jobs:
           default_label_value: patch
 
 
+     # - name: create tag to release
+     #   id: tag_version
+     #   uses: mathieudutour/github-tag-action@v6.1
+     #   with: 
+     #     github_token: ${{ secrets.GITHUB_TOKEN }}
+     #     default_bump: ${{ steps.bump_label.outputs.label_value }}
+     #     dry_run: ${{ github.event_name == 'pull_request' }}
+     #     tag_prefix: v
+
       - name: create tag to release
         id: tag_version
-        uses: mathieudutour/github-tag-action@v6.1
+        uses: mistermaxis/update-tag-action@v3
         with: 
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          default_bump: ${{ steps.bump_label.outputs.label_value }}
-          dry_run: ${{ github.event_name == 'pull_request' }}
-          tag_prefix: v
-
+          bump: ${{ steps.bump_label.outputs.label_value }}
+          prefix: v
 
       - name: create release
         uses: ncipollo/release-action@v1
         if: ${{ github.event_name != 'pull_request' }}
         with:
-          tag: ${{ steps.tag_version.outputs.new_tag }}
-          name: Release ${{ steps.tag_version.outputs.new_tag }}
-          body: ${{ steps.tag_version.outputs.changelog }}
+          tag: ${{ steps.tag_version.outputs.updated_tag }}
+          name: Release ${{ steps.tag_version.outputs.update_tag }}
+          #body: ${{ steps.tag_version.outputs.changelog }}
