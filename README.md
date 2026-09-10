@@ -17,3 +17,4 @@ print(tiny_hash("hello"))          # 🔑 tiny hash
 print(emojify("I love my dog"))    # 😍 emoji translator
 ```
 
+Endline
